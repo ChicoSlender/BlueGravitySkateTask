@@ -15,6 +15,7 @@ ASkateCharacter::ASkateCharacter(const FObjectInitializer& ObjectInitializer)
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+	JumpMaxHoldTime = 0.2f;
 
 	SpeedUpRate = 0.3f;
 
