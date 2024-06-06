@@ -14,6 +14,9 @@ class BLUEGRAVITYSKATETASK_API ASkatePlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	ASkatePlayerController();
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputMappingContext> InputMapping;
@@ -24,6 +27,9 @@ protected:
 	TObjectPtr<UInputAction> TurnInput;
 	UPROPERTY(EditDefaultsOnly, Category="Input|Actions")
 	TObjectPtr<UInputAction> JumpInput;
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	float SlowdownMinTriggerValue;
 	
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -33,8 +39,8 @@ private:
 	ASkateCharacter* PossessedSkateCharacter;
 	
 	void HandleTurnInput(const FInputActionValue& InputActionValue);
-	void HandleSlowDownInputPress();
 	void HandleSlowDownInputRelease();
+	void HandleSlowDownInputTrigger(const FInputActionValue& InputActionValue);
 	void HandleJumpInputPress();
 	void HandleJumpInputRelease();
 };

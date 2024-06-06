@@ -4,6 +4,12 @@
 #include "EnhancedInputComponent.h"
 #include "SkateCharacter/SkateCharacter.h"
 
+ASkatePlayerController::ASkatePlayerController()
+{
+	SlowdownMinTriggerValue = 0.1f;
+	PossessedSkateCharacter = nullptr;
+}
+
 void ASkatePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -21,7 +27,7 @@ void ASkatePlayerController::SetupInputComponent()
 	UEnhancedInputComponent* EnhancedInput = CastChecked<UEnhancedInputComponent>(InputComponent);
 
 	EnhancedInput->BindAction(TurnInput, ETriggerEvent::Triggered, this, &ASkatePlayerController::HandleTurnInput);
-	EnhancedInput->BindAction(SlowDownInput, ETriggerEvent::Started, this, &ASkatePlayerController::HandleSlowDownInputPress);
+	EnhancedInput->BindAction(SlowDownInput, ETriggerEvent::Triggered, this, &ASkatePlayerController::HandleSlowDownInputTrigger);
 	EnhancedInput->BindAction(SlowDownInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleSlowDownInputRelease);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Started, this, &ASkatePlayerController::HandleJumpInputPress);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleJumpInputRelease);
@@ -45,16 +51,6 @@ void ASkatePlayerController::HandleTurnInput(const FInputActionValue& InputActio
 	PossessedSkateCharacter->Turn(InputValue);
 }
 
-void ASkatePlayerController::HandleSlowDownInputPress()
-{
-	if (PossessedSkateCharacter == nullptr)
-	{
-		return;
-	}
-
-	PossessedSkateCharacter->StartSlowingDown();
-}
-
 void ASkatePlayerController::HandleSlowDownInputRelease()
 {
 	if (PossessedSkateCharacter == nullptr)
@@ -63,6 +59,25 @@ void ASkatePlayerController::HandleSlowDownInputRelease()
 	}
 
 	PossessedSkateCharacter->StopSlowingDown();
+}
+
+void ASkatePlayerController::HandleSlowDownInputTrigger(const FInputActionValue& InputActionValue)
+{
+	if (PossessedSkateCharacter == nullptr)
+	{
+		return;
+	}
+	
+	float InputValue = InputActionValue.Get<float>();
+
+	if (InputValue < -SlowdownMinTriggerValue)
+	{
+		PossessedSkateCharacter->StartSlowingDown();
+	}
+	else
+	{
+		PossessedSkateCharacter->StopSlowingDown();
+	}
 }
 
 void ASkatePlayerController::HandleJumpInputPress()
