@@ -21,6 +21,10 @@ public:
 
 	UPROPERTY(BlueprintAssignable) FPushDelegateSignature OnPushEvent; 
 	
+	void Turn(const float TurnValue);
+	void StartSlowingDown();
+	void StopSlowingDown();
+	
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -35,8 +39,4 @@ protected:
 	TObjectPtr<USkateboardThrusterComponent> SkateboardThruster;
 	
 	virtual void BeginPlay() override;
-
-	void Turn(const float TurnValue);
-	void StartSlowingDown();
-	void StopSlowingDown();
 };
