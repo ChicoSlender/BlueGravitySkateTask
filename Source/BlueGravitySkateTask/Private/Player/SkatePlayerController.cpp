@@ -31,7 +31,7 @@ void ASkatePlayerController::SetupInputComponent()
 	EnhancedInput->BindAction(SlowDownInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleSlowDownInputRelease);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Started, this, &ASkatePlayerController::HandleJumpInputPress);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleJumpInputRelease);
-	EnhancedInput->BindAction(PushInput, ETriggerEvent::Triggered, this, &ASkatePlayerController::HandlePushInput);
+	EnhancedInput->BindAction(PushInput, ETriggerEvent::Started, this, &ASkatePlayerController::HandlePushInput);
 }
 
 void ASkatePlayerController::OnPossess(APawn* NewPawn)
