@@ -14,16 +14,22 @@ public:
 	USkateboardThrusterComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void Stop();
-	void Start();
 	void Turn(float Scale);
+	void SlowDown(float SlowdownScale);
+	void SpeedUp(float Amount);
 
 protected:
+	UPROPERTY(EditDefaultsOnly)
+	float MaxTurnRate;
+	UPROPERTY(EditDefaultsOnly)
+	float MinMovementScale;
+	
 	APawn* PawnOwner;
 	UPawnMovementComponent* OwnerMovement;
-	bool bStopMovement;
-	float MaxTurnRate;
 	float TurnInput;
 	
 	virtual void BeginPlay() override;
+
+private:
+	float CurrentMovementScale;
 };

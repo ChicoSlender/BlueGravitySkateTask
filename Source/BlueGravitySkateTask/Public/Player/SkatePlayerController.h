@@ -27,6 +27,8 @@ protected:
 	TObjectPtr<UInputAction> TurnInput;
 	UPROPERTY(EditDefaultsOnly, Category="Input|Actions")
 	TObjectPtr<UInputAction> JumpInput;
+	UPROPERTY(EditDefaultsOnly, Category="Input|Actions")
+	TObjectPtr<UInputAction> PushInput;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	float SlowdownMinTriggerValue;
@@ -43,4 +45,5 @@ private:
 	void HandleSlowDownInputTrigger(const FInputActionValue& InputActionValue);
 	void HandleJumpInputPress();
 	void HandleJumpInputRelease();
+	void HandlePushInput();
 };

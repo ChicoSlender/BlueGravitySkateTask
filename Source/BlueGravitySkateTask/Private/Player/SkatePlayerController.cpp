@@ -31,6 +31,7 @@ void ASkatePlayerController::SetupInputComponent()
 	EnhancedInput->BindAction(SlowDownInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleSlowDownInputRelease);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Started, this, &ASkatePlayerController::HandleJumpInputPress);
 	EnhancedInput->BindAction(JumpInput, ETriggerEvent::Completed, this, &ASkatePlayerController::HandleJumpInputRelease);
+	EnhancedInput->BindAction(PushInput, ETriggerEvent::Triggered, this, &ASkatePlayerController::HandlePushInput);
 }
 
 void ASkatePlayerController::OnPossess(APawn* NewPawn)
@@ -58,7 +59,7 @@ void ASkatePlayerController::HandleSlowDownInputRelease()
 		return;
 	}
 
-	PossessedSkateCharacter->StopSlowingDown();
+	PossessedSkateCharacter->Slowdown(0.0f);
 }
 
 void ASkatePlayerController::HandleSlowDownInputTrigger(const FInputActionValue& InputActionValue)
@@ -67,17 +68,11 @@ void ASkatePlayerController::HandleSlowDownInputTrigger(const FInputActionValue&
 	{
 		return;
 	}
-	
-	float InputValue = InputActionValue.Get<float>();
 
-	if (InputValue < -SlowdownMinTriggerValue)
-	{
-		PossessedSkateCharacter->StartSlowingDown();
-	}
-	else
-	{
-		PossessedSkateCharacter->StopSlowingDown();
-	}
+	float InputValue = InputActionValue.Get<float>();
+	InputValue = FMath::Clamp(InputValue, 0.0f, 1.0f);
+
+	PossessedSkateCharacter->Slowdown(InputValue);
 }
 
 void ASkatePlayerController::HandleJumpInputPress()
@@ -98,4 +93,14 @@ void ASkatePlayerController::HandleJumpInputRelease()
 	}
 
 	PossessedSkateCharacter->StopJumping();
+}
+
+void ASkatePlayerController::HandlePushInput()
+{
+	if (PossessedSkateCharacter == nullptr)
+	{
+		return;
+	}
+
+	PossessedSkateCharacter->PushSkateboard();
 }

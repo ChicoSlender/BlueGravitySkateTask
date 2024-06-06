@@ -15,6 +15,8 @@ ASkateCharacter::ASkateCharacter(const FObjectInitializer& ObjectInitializer)
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 
+	SpeedUpRate = 0.3f;
+
 	SkateboardMesh = CreateDefaultSubobject<UStaticMeshComponent>("SkateboardMesh");
 	SkateboardMesh->SetupAttachment(RootComponent);
 
@@ -47,12 +49,13 @@ void ASkateCharacter::Turn(const float TurnValue)
 	SkateboardThruster->Turn(TurnValue);
 }
 
-void ASkateCharacter::StartSlowingDown()
+void ASkateCharacter::Slowdown(const float ScaleValue)
 {
-	SkateboardThruster->Stop();
+	SkateboardThruster->SlowDown(ScaleValue);
 }
 
-void ASkateCharacter::StopSlowingDown()
+void ASkateCharacter::PushSkateboard()
 {
-	SkateboardThruster->Start();
+	SkateboardThruster->SpeedUp(SpeedUpRate);
+	OnPushEvent.Broadcast();
 }
