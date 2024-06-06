@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "SkateCharacter.generated.h"
 
+class UAnimationStateManagerComponent;
 class USkateboardThrusterComponent;
 class UCameraComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPushDelegateSignature);
@@ -19,7 +20,9 @@ class BLUEGRAVITYSKATETASK_API ASkateCharacter : public ACharacter
 public:
 	ASkateCharacter(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(BlueprintAssignable) FPushDelegateSignature OnPushEvent; 
+	UPROPERTY(BlueprintAssignable) FPushDelegateSignature OnPushEvent;
+
+	UFUNCTION(BlueprintPure) UAnimationStateManagerComponent* GetAnimationStateManager() const { return AnimationStateManager.Get(); }
 	
 	void Turn(const float TurnValue);
 	void Slowdown(const float ScaleValue);
@@ -27,6 +30,8 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void OnJumped_Implementation() override;
+	virtual void Landed(const FHitResult& Hit) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
@@ -37,6 +42,8 @@ protected:
 	TObjectPtr<UCameraComponent> CameraComponent;
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<USkateboardThrusterComponent> SkateboardThruster;
+	UPROPERTY(VisibleDefaultsOnly)
+	TObjectPtr<UAnimationStateManagerComponent> AnimationStateManager;
 
 	UPROPERTY(EditDefaultsOnly, Category="SkateMovement")
 	float SpeedUpRate;

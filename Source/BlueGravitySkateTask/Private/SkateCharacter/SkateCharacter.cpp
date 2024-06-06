@@ -4,6 +4,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "SkateCharacter/SkateboardThrusterComponent.h"
 #include "SkateCharacter/SkateCharacterMovementComponent.h"
+#include "SkateCharacter/Animation/AnimationStateManagerComponent.h"
 
 
 ASkateCharacter::ASkateCharacter(const FObjectInitializer& ObjectInitializer)
@@ -27,6 +28,8 @@ ASkateCharacter::ASkateCharacter(const FObjectInitializer& ObjectInitializer)
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	SkateboardThruster = CreateDefaultSubobject<USkateboardThrusterComponent>("SkateboardThruster");
+	
+	AnimationStateManager = CreateDefaultSubobject<UAnimationStateManagerComponent>("AnimationStateManager");
 }
 
 void ASkateCharacter::Tick(float DeltaTime)
@@ -37,6 +40,20 @@ void ASkateCharacter::Tick(float DeltaTime)
 void ASkateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ASkateCharacter::OnJumped_Implementation()
+{
+	Super::OnJumped_Implementation();
+
+	AnimationStateManager->OnJump();
+}
+
+void ASkateCharacter::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+
+	AnimationStateManager->OnLanding();
 }
 
 void ASkateCharacter::BeginPlay()
