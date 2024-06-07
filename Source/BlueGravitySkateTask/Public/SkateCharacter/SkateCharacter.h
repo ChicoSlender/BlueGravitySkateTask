@@ -54,10 +54,14 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="SkateMovement")
 	float SpeedUpRate;
+
+	UPROPERTY(EditDefaultsOnly, Category="SFX")
+	TObjectPtr<USoundBase> PointsScoredSfx;
 	
 	virtual void BeginPlay() override;
 
 private:
 	UFUNCTION()
 	void HandleSkateboardBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void PlayPointsScoredSfx();
 };

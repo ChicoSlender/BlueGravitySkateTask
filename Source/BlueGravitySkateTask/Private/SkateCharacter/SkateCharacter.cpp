@@ -3,6 +3,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "ObstacleJump/ObstacleJumpTrigger.h"
 #include "Player/SkatePlayerState.h"
 #include "SkateCharacter/SkateboardThrusterComponent.h"
@@ -84,6 +85,18 @@ void ASkateCharacter::HandleSkateboardBeginOverlap(UPrimitiveComponent* Overlapp
 
 	ASkatePlayerState* PS = GetPlayerStateChecked<ASkatePlayerState>();
 	PS->AddPoints(Points);
+
+	PlayPointsScoredSfx();
+}
+
+void ASkateCharacter::PlayPointsScoredSfx()
+{
+	if (PointsScoredSfx == nullptr)
+	{
+		return;
+	}
+	
+	UGameplayStatics::PlaySound2D(this, PointsScoredSfx);
 }
 
 void ASkateCharacter::Turn(const float TurnValue)
