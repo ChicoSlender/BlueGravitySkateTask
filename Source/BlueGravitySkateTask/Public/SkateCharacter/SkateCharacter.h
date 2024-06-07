@@ -36,12 +36,19 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UStaticMeshComponent> SkateboardMesh;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UCameraComponent> CameraComponent;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UCapsuleComponent> SkateTrigger;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<USkateboardThrusterComponent> SkateboardThruster;
+	
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UAnimationStateManagerComponent> AnimationStateManager;
 
@@ -49,4 +56,8 @@ protected:
 	float SpeedUpRate;
 	
 	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void HandleSkateboardBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };
