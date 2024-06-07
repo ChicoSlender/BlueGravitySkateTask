@@ -2,12 +2,15 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "ObstacleJump/UI/ScoreHUDControllerComponent.h"
 #include "SkateCharacter/SkateCharacter.h"
 
 ASkatePlayerController::ASkatePlayerController()
 {
 	SlowdownMinTriggerValue = 0.1f;
 	PossessedSkateCharacter = nullptr;
+
+	ScoreHUDController = CreateDefaultSubobject<UScoreHUDControllerComponent>("ScoreHUDController");
 }
 
 void ASkatePlayerController::BeginPlay()

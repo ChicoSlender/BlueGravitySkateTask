@@ -5,6 +5,7 @@
 #include "GameFramework/PlayerController.h"
 #include "SkatePlayerController.generated.h"
 
+class UScoreHUDControllerComponent;
 class ASkateCharacter;
 class UInputMappingContext;
 class UInputAction;
@@ -29,9 +30,12 @@ protected:
 	TObjectPtr<UInputAction> JumpInput;
 	UPROPERTY(EditDefaultsOnly, Category="Input|Actions")
 	TObjectPtr<UInputAction> PushInput;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	float SlowdownMinTriggerValue;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UScoreHUDControllerComponent> ScoreHUDController;
 	
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;

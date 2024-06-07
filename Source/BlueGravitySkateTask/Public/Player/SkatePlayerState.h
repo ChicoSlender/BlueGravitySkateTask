@@ -4,6 +4,8 @@
 #include "GameFramework/PlayerState.h"
 #include "SkatePlayerState.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FPointsChangeDelegateSignature, int);
+
 UCLASS()
 class BLUEGRAVITYSKATETASK_API ASkatePlayerState : public APlayerState
 {
@@ -12,6 +14,8 @@ class BLUEGRAVITYSKATETASK_API ASkatePlayerState : public APlayerState
 public:
 	ASkatePlayerState();
 
+	FPointsChangeDelegateSignature OnPointsChangeEvent;
+	
 	UFUNCTION(BlueprintPure) int GetPoints() const { return points; }
 	void AddPoints(int deltaPoints);
 	

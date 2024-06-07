@@ -8,4 +8,6 @@ ASkatePlayerState::ASkatePlayerState()
 void ASkatePlayerState::AddPoints(int deltaPoints)
 {
 	points += deltaPoints;
+
+	OnPointsChangeEvent.Broadcast(points);
 }
